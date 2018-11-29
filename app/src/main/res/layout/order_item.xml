@@ -9,6 +9,7 @@
     android:layout_marginTop="@dimen/medium_margin"
     android:layout_marginEnd="@dimen/large_margin"
     android:layout_marginBottom="@dimen/medium_margin"
+    card_view:cardBackgroundColor="@color/viewBackground"
     card_view:cardCornerRadius="@dimen/card_corner_radius">
 
     <android.support.constraint.ConstraintLayout
