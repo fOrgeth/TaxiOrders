@@ -8,6 +8,6 @@ public class OrdersListActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return OrdersListFragment.newInstance();
+        return OrderDetailFragment.newInstance();
     }
 }

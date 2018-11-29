@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import java.util.List;
 
 public class OrdersRVAdapter extends RecyclerView.Adapter<OrdersRVAdapter.OrdersViewHolder> {
@@ -28,10 +29,10 @@ public class OrdersRVAdapter extends RecyclerView.Adapter<OrdersRVAdapter.Orders
 
         public OrdersViewHolder(@NonNull View itemView) {
             super(itemView);
-            cardView=itemView.findViewById(R.id.card_view_order);
-            startAddress=itemView.findViewById(R.id.start_address);
+            cardView = itemView.findViewById(R.id.card_view_order);
+            startAddress = itemView.findViewById(R.id.start_address);
             endAddress = itemView.findViewById(R.id.end_address);
-            orderPrice =itemView.findViewById(R.id.order_price);
+            orderPrice = itemView.findViewById(R.id.order_price);
             orderDate = itemView.findViewById(R.id.order_date);
 
         }
@@ -45,7 +46,7 @@ public class OrdersRVAdapter extends RecyclerView.Adapter<OrdersRVAdapter.Orders
     @NonNull
     @Override
     public OrdersViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.order_item,viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.order_item, viewGroup, false);
         OrdersViewHolder ovh = new OrdersViewHolder(view);
         return ovh;
     }
