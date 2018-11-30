@@ -1,6 +1,6 @@
 package com.th.forge.taxiorders.temp;
 
-import com.th.forge.taxiorders.Order;
+import com.th.forge.taxiorders.Entity.Order;
 
 import java.util.ArrayList;
 import java.util.List;

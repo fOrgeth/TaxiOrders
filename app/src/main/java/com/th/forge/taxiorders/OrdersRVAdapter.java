@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.th.forge.taxiorders.Entity.Order;
+
 import java.util.List;
 
 public class OrdersRVAdapter extends RecyclerView.Adapter<OrdersRVAdapter.OrdersViewHolder> {
@@ -34,7 +36,6 @@ public class OrdersRVAdapter extends RecyclerView.Adapter<OrdersRVAdapter.Orders
             endAddress = itemView.findViewById(R.id.end_address);
             orderPrice = itemView.findViewById(R.id.order_price);
             orderDate = itemView.findViewById(R.id.order_date);
-
         }
 
         @Override
@@ -53,7 +54,7 @@ public class OrdersRVAdapter extends RecyclerView.Adapter<OrdersRVAdapter.Orders
 
     @Override
     public void onBindViewHolder(@NonNull OrdersViewHolder ordersViewHolder, int i) {
-        ordersViewHolder.startAddress.setText(orders.get(i).getStartAddress());
+        ordersViewHolder.startAddress.setTextgit (orders.get(i).getStartAddress());
         ordersViewHolder.endAddress.setText(orders.get(i).getEndAddress());
         ordersViewHolder.orderDate.setText(orders.get(i).getOrderTime());
         ordersViewHolder.orderPrice.setText(String.valueOf(orders.get(i).getPriceAmount()));
