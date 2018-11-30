@@ -54,10 +54,10 @@ public class OrdersRVAdapter extends RecyclerView.Adapter<OrdersRVAdapter.Orders
 
     @Override
     public void onBindViewHolder(@NonNull OrdersViewHolder ordersViewHolder, int i) {
-        ordersViewHolder.startAddress.setTextgit (orders.get(i).getStartAddress());
-        ordersViewHolder.endAddress.setText(orders.get(i).getEndAddress());
+        ordersViewHolder.startAddress.setText(orders.get(i).getStartAddress().getAddress());
+        ordersViewHolder.endAddress.setText(orders.get(i).getEndAddress().getAddress());
         ordersViewHolder.orderDate.setText(orders.get(i).getOrderTime());
-        ordersViewHolder.orderPrice.setText(String.valueOf(orders.get(i).getPriceAmount()));
+        ordersViewHolder.orderPrice.setText(String.valueOf(orders.get(i).getPrice().getAmount()));
 
     }
 
