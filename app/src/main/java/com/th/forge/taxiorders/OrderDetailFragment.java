@@ -1,5 +1,7 @@
 package com.th.forge.taxiorders;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,6 +9,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.th.forge.taxiorders.api.RetroClient;
+import com.th.forge.taxiorders.api.RoxieApiService;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OrderDetailFragment extends Fragment {
     public static OrderDetailFragment newInstance(){
@@ -23,6 +34,26 @@ public class OrderDetailFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_detail, container, false);
+        ImageView imageView = view.findViewById(R.id.detail_image);
+        RoxieApiService api = RetroClient.getApiService();
+
+        Call<ResponseBody> call = api.getImage("01.jpg");
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    if(response.body()!=null){
+                        Bitmap bmp = BitmapFactory.decodeStream(response.body().byteStream());
+                        imageView.setImageBitmap(bmp);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
         return view;
     }
 }

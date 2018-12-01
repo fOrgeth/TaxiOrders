@@ -45,10 +45,9 @@ public class OrdersListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_orders);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        SampleOrders sampleOrders = new SampleOrders();
         RoxieApiService api = RetroClient.getApiService();
         ordersList = new ArrayList<>();
-        Call<ArrayList<Order>> call = api.getJSON();
+        Call<ArrayList<Order>> call = api.getOrders();
         call.enqueue(new Callback<ArrayList<Order>>() {
             @Override
             public void onResponse(Call<ArrayList<Order>> call, Response<ArrayList<Order>> response) {
