@@ -17,7 +17,7 @@ public class Order {
     @Expose
     private EndAddress endAddress;
 
-    @SerializedName("orderPrice")
+    @SerializedName("price")
     @Expose
     private Price price;
 

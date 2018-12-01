@@ -11,8 +11,8 @@ public class Price {
     @Expose
     private String currency;
 
-    public String getAmount() {
-        return Integer.toString(amount);
+    public Integer getAmount() {
+        return amount;
     }
 
     public void setAmount(Integer amount) {

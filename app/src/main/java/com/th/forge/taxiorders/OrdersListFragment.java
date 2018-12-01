@@ -10,12 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import com.th.forge.taxiorders.Entity.Order;
 import com.th.forge.taxiorders.api.RetroClient;
 import com.th.forge.taxiorders.api.RoxieApiService;
 import com.th.forge.taxiorders.temp.SampleOrders;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,19 +45,19 @@ public class OrdersListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_orders);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        OrdersRVAdapter adapter = new OrdersRVAdapter(ordersList);
-        recyclerView.setAdapter(adapter);
         SampleOrders sampleOrders = new SampleOrders();
         RoxieApiService api = RetroClient.getApiService();
-        ordersList=new ArrayList<>();
+        ordersList = new ArrayList<>();
         Call<ArrayList<Order>> call = api.getJSON();
         call.enqueue(new Callback<ArrayList<Order>>() {
             @Override
             public void onResponse(Call<ArrayList<Order>> call, Response<ArrayList<Order>> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ordersList.addAll(response.body());
+                    OrdersRVAdapter adapter = new OrdersRVAdapter(ordersList);
+                    recyclerView.setAdapter(adapter);
                     recyclerView.getAdapter().notifyDataSetChanged();
-                    Toast.makeText(getActivity(),"WTF "+ordersList.get(1).getOrderTime(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "WTF " + ordersList.get(1).getOrderTime(), Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getActivity(), "WAWEDAD", Toast.LENGTH_SHORT).show();
                 }
@@ -62,7 +65,7 @@ public class OrdersListFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<Order>> call, Throwable t) {
-                Toast.makeText(getActivity(),"SHIT",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "SHIT", Toast.LENGTH_LONG).show();
             }
         });
         return view;
