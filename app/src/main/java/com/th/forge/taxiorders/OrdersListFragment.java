@@ -11,10 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.th.forge.taxiorders.Entity.Order;
 import com.th.forge.taxiorders.api.RetroClient;
 import com.th.forge.taxiorders.api.RoxieApiService;
-import com.th.forge.taxiorders.temp.SampleOrders;
+import com.th.forge.taxiorders.entity.Order;
 
 import java.util.ArrayList;
 import java.util.List;

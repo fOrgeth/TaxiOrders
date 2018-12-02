@@ -1,10 +1,9 @@
-package com.th.forge.taxiorders.Entity;
-
+package com.th.forge.taxiorders.entity;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class EndAddress {
+public class StartAddress {
 
     @SerializedName("city")
     @Expose

@@ -1,6 +1,6 @@
 package com.th.forge.taxiorders.api;
 
-import com.th.forge.taxiorders.Entity.Order;
+import com.th.forge.taxiorders.entity.Order;
 
 import java.util.ArrayList;
 

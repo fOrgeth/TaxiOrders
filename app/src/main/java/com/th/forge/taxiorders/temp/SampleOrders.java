@@ -1,9 +1,9 @@
 package com.th.forge.taxiorders.temp;
 
-import com.th.forge.taxiorders.Entity.EndAddress;
-import com.th.forge.taxiorders.Entity.Order;
-import com.th.forge.taxiorders.Entity.Price;
-import com.th.forge.taxiorders.Entity.StartAddress;
+import com.th.forge.taxiorders.entity.EndAddress;
+import com.th.forge.taxiorders.entity.Order;
+import com.th.forge.taxiorders.entity.Price;
+import com.th.forge.taxiorders.entity.StartAddress;
 
 import java.util.ArrayList;
 import java.util.List;
