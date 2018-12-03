@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +52,7 @@ public class OrderDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_order_detail, container, false);
         ImageView imageView = view.findViewById(R.id.detail_image);
         String imagePath = order.getVehicle().getPhoto();
+
         App.getApiService().getImage(imagePath).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -81,6 +83,9 @@ public class OrderDetailFragment extends Fragment {
 
             }
         });
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+
+        activity.getSupportActionBar().setTitle(new SimpleDateFormat("HH:mm:ss").format(order.getOrderTime().getTime()));
         return view;
     }
 }
