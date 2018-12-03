@@ -12,13 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.th.forge.taxiorders.entity.Order;
 
 import java.io.File;
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Currency;
 import java.util.Date;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -52,7 +56,12 @@ public class OrderDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_order_detail, container, false);
         ImageView imageView = view.findViewById(R.id.detail_image);
         String imagePath = order.getVehicle().getPhoto();
-
+        TextView priceField = view.findViewById(R.id.detail_price);
+        Currency currency = Currency.getInstance(order.getPrice().getCurrency());
+        NumberFormat formatter = NumberFormat.getInstance();
+        formatter.setMaximumFractionDigits(2);
+        formatter.setCurrency(currency);
+        priceField.setText(formatter.format(order.getPrice().getAmount()).toString());
         App.getApiService().getImage(imagePath).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -85,7 +94,8 @@ public class OrderDetailFragment extends Fragment {
         });
         AppCompatActivity activity = (AppCompatActivity) getActivity();
 
-        activity.getSupportActionBar().setTitle(new SimpleDateFormat("HH:mm:ss").format(order.getOrderTime().getTime()));
+        activity.getSupportActionBar().setTitle("Date: "+new SimpleDateFormat("dd.MM.yyyy").format(order.getOrderTime().getTime()));
+        activity.getSupportActionBar().setSubtitle("Time: "+new SimpleDateFormat("HH:mm:ss").format(order.getOrderTime().getTime()));
         return view;
     }
 }

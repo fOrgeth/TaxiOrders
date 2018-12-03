@@ -74,20 +74,6 @@ public class Order implements Serializable {
         return orderTime;
     }
 
-    /*public long getOrderTimeInMillis() {
-        Log.d("ORDER","I'm HERE");
-        String date = new SimpleDateFormat(MASK).format(orderTime);
-        SimpleDateFormat f = new SimpleDateFormat(MASK);
-        long milliseconds = 0L;
-        try {
-            Date d = f.parse(date);
-            milliseconds = d.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return milliseconds;
-    }*/
-
     public void setOrderTime(Date orderTime) {
         this.orderTime = orderTime;
     }
