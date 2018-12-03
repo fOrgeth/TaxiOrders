@@ -3,6 +3,10 @@ package com.th.forge.taxiorders.entity;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Order {
 
     @SerializedName("id")
@@ -75,5 +79,17 @@ public class Order {
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public long getParsedDateToLong(String mask){
+        SimpleDateFormat f = new SimpleDateFormat(mask);
+        long milliseconds = 0L;
+        try {
+            Date d = f.parse(orderTime);
+            milliseconds = d.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return milliseconds;
     }
 }

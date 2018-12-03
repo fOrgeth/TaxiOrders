@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.th.forge.taxiorders.api.RetroClient;
 import com.th.forge.taxiorders.api.RoxieApiService;
 import com.th.forge.taxiorders.entity.Order;
+import com.th.forge.taxiorders.repo.DataProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ public class OrdersListFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         RoxieApiService api = RetroClient.getApiService();
+
         ordersList = new ArrayList<>();
         Call<ArrayList<Order>> call = api.getOrders();
         call.enqueue(new Callback<ArrayList<Order>>() {
@@ -52,7 +54,8 @@ public class OrdersListFragment extends Fragment {
             public void onResponse(Call<ArrayList<Order>> call, Response<ArrayList<Order>> response) {
                 if (response.isSuccessful()) {
                     ordersList.addAll(response.body());
-                    OrdersRVAdapter adapter = new OrdersRVAdapter(ordersList);
+
+                    OrdersRVAdapter adapter = new OrdersRVAdapter(DataProvider.getSortedOrders(ordersList));
                     recyclerView.setAdapter(adapter);
                     recyclerView.getAdapter().notifyDataSetChanged();
                     Toast.makeText(getActivity(), "WTF " + ordersList.get(1).getOrderTime(), Toast.LENGTH_LONG).show();
