@@ -3,7 +3,9 @@ package com.th.forge.taxiorders.entity;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Price {
+import java.io.Serializable;
+
+public class Price implements Serializable {
     @SerializedName("amount")
     @Expose
     private Integer amount;

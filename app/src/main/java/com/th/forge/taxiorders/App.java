@@ -1,37 +1,46 @@
-package com.th.forge.taxiorders.api;
+package com.th.forge.taxiorders;
 
+import android.app.Application;
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.th.forge.taxiorders.api.RoxieApiService;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
 
-public class RetroClient {
+public class App extends Application {
 
-    private static Retrofit retrofit = null;
+    private static RoxieApiService api;
+    private static Retrofit retrofit;
     private static final String ROOT_URL = "https://www.roxiemobile.ru/careers/test/";
 
-    private static Retrofit getRetrofitInstance() {
+    @Override
+    public void onCreate() {
+        super.onCreate();
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .build();
         if (retrofit == null) {
-            Log.d("RetroClient",ROOT_URL+" !!!!!!!!!!!!!");
+            Log.d("RetroClient", ROOT_URL + " !!!!!!!!!!!!!");
+            Gson gson = new GsonBuilder()
+                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                    .create();
             retrofit = new Retrofit.Builder()
                     .baseUrl(ROOT_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .client(client)
                     .build();
+            api = retrofit.create(RoxieApiService.class);
         }
-
-        return retrofit;
     }
 
     public static RoxieApiService getApiService() {
-        return getRetrofitInstance().create(RoxieApiService.class);
+        return api;
     }
 }

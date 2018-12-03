@@ -1,13 +1,18 @@
 package com.th.forge.taxiorders.entity;
 
+import android.util.Log;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Order {
+public class Order implements Serializable {
+
+    private final static String MASK = "yyyy-MM-dd'T'HH:mm:ssZ";
 
     @SerializedName("id")
     @Expose
@@ -27,7 +32,7 @@ public class Order {
 
     @SerializedName("orderTime")
     @Expose
-    private String orderTime;
+    private Date orderTime;
 
     @SerializedName("vehicle")
     @Expose
@@ -65,11 +70,25 @@ public class Order {
         this.price = price;
     }
 
-    public String getOrderTime() {
+    public Date getOrderTime() {
         return orderTime;
     }
 
-    public void setOrderTime(String orderTime) {
+    /*public long getOrderTimeInMillis() {
+        Log.d("ORDER","I'm HERE");
+        String date = new SimpleDateFormat(MASK).format(orderTime);
+        SimpleDateFormat f = new SimpleDateFormat(MASK);
+        long milliseconds = 0L;
+        try {
+            Date d = f.parse(date);
+            milliseconds = d.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return milliseconds;
+    }*/
+
+    public void setOrderTime(Date orderTime) {
         this.orderTime = orderTime;
     }
 
@@ -81,15 +100,4 @@ public class Order {
         this.vehicle = vehicle;
     }
 
-    public long getParsedDateToLong(String mask){
-        SimpleDateFormat f = new SimpleDateFormat(mask);
-        long milliseconds = 0L;
-        try {
-            Date d = f.parse(orderTime);
-            milliseconds = d.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return milliseconds;
-    }
 }

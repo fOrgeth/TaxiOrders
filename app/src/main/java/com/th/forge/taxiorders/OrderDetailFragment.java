@@ -12,16 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.th.forge.taxiorders.api.RetroClient;
-import com.th.forge.taxiorders.api.RoxieApiService;
+import com.th.forge.taxiorders.entity.Order;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -31,14 +25,24 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OrderDetailFragment extends Fragment {
-    public static OrderDetailFragment newInstance(){
-        return new OrderDetailFragment();
+    private static final String ORDER_KEY = "order_key";
+
+    private Order order;
+
+    public static OrderDetailFragment newInstance(Serializable order) {
+        Bundle args = new Bundle();
+        args.putSerializable(ORDER_KEY, order);
+        OrderDetailFragment fragment = new OrderDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
+        if (getArguments() != null) {
+            order = (Order) getArguments().getSerializable(ORDER_KEY);
+        }
     }
 
     @Nullable
@@ -46,16 +50,14 @@ public class OrderDetailFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_detail, container, false);
         ImageView imageView = view.findViewById(R.id.detail_image);
-        RoxieApiService api = RetroClient.getApiService();
-
-        Call<ResponseBody> call = api.getImage("01.jpg");
-        call.enqueue(new Callback<ResponseBody>() {
+        String imagePath = order.getVehicle().getPhoto();
+        App.getApiService().getImage(imagePath).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.isSuccessful()){
-                    if(response.body()!=null){
-//                        Bitmap bmp = BitmapFactory.decodeStream(response.body().byteStream());
-                        File file = new File(getActivity().getFilesDir(), "01.jpg");
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        Bitmap bmp = BitmapFactory.decodeStream(response.body().byteStream());
+//                        File file = new File(getActivity().getFilesDir(), "01.jpg");
                         /*Log.d("OrdDetFrag",file.getPath());
                         OutputStream os;
                         try {
@@ -66,10 +68,9 @@ public class OrderDetailFragment extends Fragment {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }*/
-
-                        String date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date(file.lastModified()));
-                        Log.d("!!!!!",date);
-                        Bitmap bmp = BitmapFactory.decodeFile(file.getAbsolutePath());
+//                        String date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date(file.lastModified()));
+//                        Log.d("!!!!!", date);
+//                        Bitmap bmp = BitmapFactory.decodeFile(file.getAbsolutePath());
                         imageView.setImageBitmap(bmp);
                     }
                 }

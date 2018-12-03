@@ -4,7 +4,9 @@ package com.th.forge.taxiorders.entity;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class EndAddress {
+import java.io.Serializable;
+
+public class EndAddress implements Serializable {
 
     @SerializedName("city")
     @Expose

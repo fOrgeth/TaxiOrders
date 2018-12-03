@@ -3,7 +3,9 @@ package com.th.forge.taxiorders.entity;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Vehicle {
+import java.io.Serializable;
+
+public class Vehicle implements Serializable {
 
     @SerializedName("regNumber")
     @Expose
