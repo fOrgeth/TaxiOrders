@@ -57,7 +57,7 @@
                     android:layout_marginStart="@dimen/medium_margin"
                     android:layout_marginTop="@dimen/extra_large_margin"
                     android:hint="@string/hint_start_address"
-                    android:textSize="24sp"
+                    android:textSize="@dimen/detail_medium_text_size"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/detail_image" />
 
@@ -78,7 +78,7 @@
                     android:layout_marginStart="@dimen/small_margin"
                     android:layout_marginTop="@dimen/medium_margin"
                     android:layout_marginBottom="@dimen/large_margin"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/detail_small_text_size"
                     android:hint="@string/hint_end_address"
                     app:layout_constraintStart_toEndOf="@id/ic_detail_arrow"
                     app:layout_constraintTop_toBottomOf="@id/detail_start_address" />
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/medium_margin"
                     android:layout_marginTop="@dimen/medium_margin"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/detail_small_text_size"
                     android:hint="@string/detail_driver_hint"
                     app:layout_constraintStart_toEndOf="@id/ic_detail_car"
                     app:layout_constraintTop_toBottomOf="@id/detail_sep1" />
@@ -130,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/medium_margin"
                     android:layout_marginTop="@dimen/medium_margin"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/detail_small_text_size"
                     android:hint="@string/detail_model_hint"
                     app:layout_constraintStart_toEndOf="@id/ic_detail_car"
                     app:layout_constraintTop_toBottomOf="@id/detail_vehicle_driver" />
@@ -151,7 +151,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/medium_margin"
                     android:layout_marginTop="@dimen/medium_margin"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/detail_small_text_size"
                     android:hint="@string/detail_reg_num_hint"
                     app:layout_constraintStart_toEndOf="@id/ic_detail_car_num"
                     app:layout_constraintTop_toBottomOf="@id/detail_vehicle_model" />
@@ -175,7 +175,8 @@
                     android:layout_marginBottom="@dimen/extra_large_margin"
                     android:textColor="@color/colorAccent"
                     android:hint="@string/hint_price"
-                    android:textSize="32sp"
+                    android:textSize="@dimen/detail_large_text_size"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/detail_sep2" />
 

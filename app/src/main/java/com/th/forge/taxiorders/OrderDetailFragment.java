@@ -3,6 +3,7 @@ package com.th.forge.taxiorders;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +36,7 @@ public class OrderDetailFragment extends Fragment {
 
     private OnFragmentInteractionListener interactionListener;
     private Order order;
+    private ImageView imageView;
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(String title, String subtitle);
@@ -65,7 +68,7 @@ public class OrderDetailFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_detail, container, false);
-        ImageView imageView = view.findViewById(R.id.detail_image);
+        imageView = view.findViewById(R.id.detail_image);
         TextView startStreet = view.findViewById(R.id.detail_start_address);
         TextView endStreet = view.findViewById(R.id.detail_end_address);
         TextView driverName = view.findViewById(R.id.detail_vehicle_driver);
@@ -84,20 +87,26 @@ public class OrderDetailFragment extends Fragment {
         driverName.setText(order.getVehicle().getDriverName());
         vehicleModel.setText(order.getVehicle().getModelName());
         vehicleNumber.setText(order.getVehicle().getRegNumber());
-
         Currency currency = Currency.getInstance(order.getPrice().getCurrency());
         NumberFormat formatter = NumberFormat.getInstance();
         formatter.setMinimumFractionDigits(2);
         formatter.setCurrency(currency);
         priceField.setText(String.format("%s %s", formatter.format(order.getPrice().getAmount()), getResources().getString(R.string.rubleSymbol)));
-        imageView.setImageBitmap(getImage());
+        new FetchImageTask().execute();
         return view;
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        interactionListener = null;
+    private class FetchImageTask extends AsyncTask<Void, Void, Bitmap>{
+
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            return getImage();
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            imageView.setImageBitmap(bitmap);
+        }
     }
 
     private Bitmap getImage() {
@@ -109,7 +118,20 @@ public class OrderDetailFragment extends Fragment {
             bmp = BitmapFactory.decodeFile(cachedImage.getAbsolutePath());
         } else {
             cachedImage.delete();
-            App.getApiService().getImage(order.getVehicle().getPhoto()).enqueue(new Callback<ResponseBody>() {
+            try {
+                Response<ResponseBody> response = App.getApiService().getImage(imagePath).execute();
+                if(response.body()!=null){
+                    OutputStream os;
+                    os = new FileOutputStream(cachedImage);
+                    os.write(response.body().bytes());
+                    os.flush();
+                    os.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            bmp = BitmapFactory.decodeFile(cachedImage.getAbsolutePath());
+            /*App.getApiService().getImage(order.getVehicle().getPhoto()).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
@@ -129,9 +151,14 @@ public class OrderDetailFragment extends Fragment {
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                 }
-            });
-            bmp = BitmapFactory.decodeFile(cachedImage.getAbsolutePath());
+            });*/
         }
         return bmp;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        interactionListener = null;
     }
 }
