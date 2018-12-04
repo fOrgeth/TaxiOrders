@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/viewBackground">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -17,7 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/large_margin"
-            card_view:cardBackgroundColor="@color/viewBackground"
             card_view:cardCornerRadius="@dimen/card_corner_radius">
 
             <android.support.constraint.ConstraintLayout
@@ -38,7 +38,7 @@
                     android:src="@drawable/car_tmp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <!--<TextView
                     android:id="@+id/detail_date_time"
@@ -57,81 +57,127 @@
                     android:layout_marginStart="@dimen/medium_margin"
                     android:layout_marginTop="@dimen/extra_large_margin"
                     android:hint="@string/hint_start_address"
+                    android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/detail_image"/>
+                    app:layout_constraintTop_toBottomOf="@id/detail_image" />
+
+                <ImageView
+                    android:id="@+id/ic_detail_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:src="@drawable/ic_subdirectory_arrow_right_black_24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/detail_start_address" />
 
                 <TextView
                     android:id="@+id/detail_end_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/medium_margin"
+                    android:layout_marginStart="@dimen/small_margin"
                     android:layout_marginTop="@dimen/medium_margin"
                     android:layout_marginBottom="@dimen/large_margin"
+                    android:textSize="20sp"
                     android:hint="@string/hint_end_address"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/detail_start_address"/>
+                    app:layout_constraintStart_toEndOf="@id/ic_detail_arrow"
+                    app:layout_constraintTop_toBottomOf="@id/detail_start_address" />
 
                 <View
-                    android:id="@+id/sep1"
+                    android:id="@+id/detail_sep1"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginStart="@dimen/extra_large_margin"
                     android:layout_marginTop="@dimen/large_margin"
                     android:layout_marginEnd="@dimen/extra_large_margin"
                     android:background="@android:color/darker_gray"
-                    app:layout_constraintTop_toBottomOf="@id/detail_end_address"/>
+                    app:layout_constraintTop_toBottomOf="@id/detail_end_address" />
 
-                <TextView
-                    android:id="@+id/vehicle_driver"
+                <ImageView
+                    android:id="@+id/ic_detail_driver"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/medium_margin"
                     android:layout_marginTop="@dimen/medium_margin"
-                    android:hint="FIO"
+                    android:src="@drawable/ic_person_black_24dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sep1"/>
+                    app:layout_constraintTop_toBottomOf="@id/detail_sep1" />
 
                 <TextView
-                    android:id="@+id/vehicle_model"
+                    android:id="@+id/detail_vehicle_driver"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/medium_margin"
                     android:layout_marginTop="@dimen/medium_margin"
-                    android:hint="MODEL"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/vehicle_driver"/>
+                    android:textSize="20sp"
+                    android:hint="@string/detail_driver_hint"
+                    app:layout_constraintStart_toEndOf="@id/ic_detail_car"
+                    app:layout_constraintTop_toBottomOf="@id/detail_sep1" />
 
-                <TextView
-                    android:id="@+id/vehicle_reg_number"
+                <ImageView
+                    android:id="@+id/ic_detail_car"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/medium_margin"
                     android:layout_marginTop="@dimen/medium_margin"
-                    android:hint="NUMBER"
+                    android:src="@drawable/ic_directions_car_black_24dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/vehicle_model"/>
+                    app:layout_constraintTop_toBottomOf="@id/detail_vehicle_driver" />
+
+                <TextView
+                    android:id="@+id/detail_vehicle_model"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:textSize="20sp"
+                    android:hint="@string/detail_model_hint"
+                    app:layout_constraintStart_toEndOf="@id/ic_detail_car"
+                    app:layout_constraintTop_toBottomOf="@id/detail_vehicle_driver" />
+
+                <ImageView
+                    android:id="@+id/ic_detail_car_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:src="@drawable/ic_info_black_24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/detail_vehicle_model" />
+
+                <TextView
+                    android:id="@+id/detail_vehicle_reg_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:textSize="20sp"
+                    android:hint="@string/detail_reg_num_hint"
+                    app:layout_constraintStart_toEndOf="@id/ic_detail_car_num"
+                    app:layout_constraintTop_toBottomOf="@id/detail_vehicle_model" />
 
                 <View
-                    android:id="@+id/sep2"
+                    android:id="@+id/detail_sep2"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginStart="@dimen/extra_large_margin"
                     android:layout_marginTop="@dimen/large_margin"
                     android:layout_marginEnd="@dimen/extra_large_margin"
                     android:background="@android:color/darker_gray"
-                    app:layout_constraintTop_toBottomOf="@id/vehicle_reg_number"/>
+                    app:layout_constraintTop_toBottomOf="@id/detail_vehicle_reg_number" />
 
                 <TextView
                     android:id="@+id/detail_price"
-                    android:textSize="32sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/large_margin"
                     android:layout_marginEnd="@dimen/extra_large_margin"
                     android:layout_marginBottom="@dimen/extra_large_margin"
+                    android:textColor="@color/colorAccent"
                     android:hint="@string/hint_price"
+                    android:textSize="32sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sep2"/>
+                    app:layout_constraintTop_toBottomOf="@id/detail_sep2" />
 
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
