@@ -44,7 +44,6 @@ public class OrdersListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_orders);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-
         ordersList = new ArrayList<>();
         App.getApiService().getOrders().enqueue(new Callback<ArrayList<Order>>() {
             @Override
@@ -110,7 +109,6 @@ public class OrdersListFragment extends Fragment {
             private TextView orderDate;
             private TextView orderPrice;
 
-
             public OrdersViewHolder(@NonNull View itemView) {
                 super(itemView);
                 startAddress = itemView.findViewById(R.id.start_address);
@@ -133,7 +131,6 @@ public class OrdersListFragment extends Fragment {
                 orderPrice.setText(String.valueOf(order.getPrice().getAmount()));
                 orderDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(order.getOrderTime().getTime()));
             }
-
         }
 
         @NonNull

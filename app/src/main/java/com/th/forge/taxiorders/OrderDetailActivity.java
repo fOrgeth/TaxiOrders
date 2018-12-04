@@ -27,11 +27,6 @@ public class OrderDetailActivity extends SingleFragmentActivity implements Order
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
     public void onFragmentInteraction(String title, String subtitle) {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
