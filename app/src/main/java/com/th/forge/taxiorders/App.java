@@ -1,7 +1,6 @@
 package com.th.forge.taxiorders;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,7 +26,6 @@ public class App extends Application {
                 .addInterceptor(interceptor)
                 .build();
         if (retrofit == null) {
-            Log.d("RetroClient", ROOT_URL + " !!!!!!!!!!!!!");
             Gson gson = new GsonBuilder()
                     .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                     .create();

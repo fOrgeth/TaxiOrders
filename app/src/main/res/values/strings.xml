@@ -6,8 +6,8 @@
     <string name="hint_start_address">Some start street</string>
     <string name="hint_end_address">Some end street</string>
     <string name="hint_price">550 \u20BD</string>
-    <string name="detail_title_field">Date:</string>
-    <string name="detail_subtitle_field">Time:</string>
+    <string name="detail_title_field">Date: </string>
+    <string name="detail_subtitle_field">Time: </string>
     <string name="detail_driver_hint">Name</string>
     <string name="detail_model_hint">Model</string>
     <string name="detail_reg_num_hint">x999xx178rus</string>

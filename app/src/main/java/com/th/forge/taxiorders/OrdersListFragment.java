@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,6 @@ public class OrdersListFragment extends Fragment {
                         ordersList.addAll(response.body());
                         OrdersRVAdapter adapter = new OrdersRVAdapter(getSortedOrders(ordersList));
                         recyclerView.setAdapter(adapter);
-//                        recyclerView.getAdapter().notifyDataSetChanged();
                         Toast.makeText(getActivity(), "WTF " + ordersList.get(1).getOrderTime(), Toast.LENGTH_LONG).show();
                     }
                 } else {
@@ -65,7 +63,6 @@ public class OrdersListFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<Order>> call, Throwable t) {
-                Log.d("LISTFRAGMENT",t.toString());
                 Toast.makeText(getActivity(), "SHIT"+" "+t.toString(), Toast.LENGTH_LONG).show();
             }
         });

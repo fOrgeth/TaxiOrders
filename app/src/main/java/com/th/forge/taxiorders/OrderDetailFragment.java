@@ -14,8 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.th.forge.taxiorders.entity.Order;
-import com.th.forge.taxiorders.entity.Price;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -28,9 +31,13 @@ import retrofit2.Response;
 
 public class OrderDetailFragment extends Fragment {
     private static final String ORDER_KEY = "order_key";
-    private OnFragmentInteractionListener interactionListener;
 
+    private OnFragmentInteractionListener interactionListener;
     private Order order;
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(String title, String subtitle);
+    }
 
     public static OrderDetailFragment newInstance(Serializable order) {
         Bundle args = new Bundle();
@@ -78,47 +85,12 @@ public class OrderDetailFragment extends Fragment {
         vehicleModel.setText(order.getVehicle().getModelName());
         vehicleNumber.setText(order.getVehicle().getRegNumber());
 
-        String imagePath = order.getVehicle().getPhoto();
-
         Currency currency = Currency.getInstance(order.getPrice().getCurrency());
         NumberFormat formatter = NumberFormat.getInstance();
-//        formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setCurrency(currency);
-        /*Price price = new Price();
-        price.setAmount(12345);
-        order.setPrice(price);*/
-        priceField.setText(String.format("%s %s", formatter.format(order.getPrice().getAmount()),getResources().getString(R.string.rubleSymbol)));
-        App.getApiService().getImage(imagePath).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        Bitmap bmp = BitmapFactory.decodeStream(response.body().byteStream());
-//                        File file = new File(getActivity().getFilesDir(), "01.jpg");
-                        /*Log.d("OrdDetFrag",file.getPath());
-                        OutputStream os;
-                        try {
-                            os = new FileOutputStream(file);
-                            os.write(response.body().bytes());
-                            os.flush();
-                            os.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }*/
-//                        String date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date(file.lastModified()));
-//                        Log.d("!!!!!", date);
-//                        Bitmap bmp = BitmapFactory.decodeFile(file.getAbsolutePath());
-                        imageView.setImageBitmap(bmp);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
+        priceField.setText(String.format("%s %s", formatter.format(order.getPrice().getAmount()), getResources().getString(R.string.rubleSymbol)));
+        imageView.setImageBitmap(getImage());
         return view;
     }
 
@@ -128,7 +100,38 @@ public class OrderDetailFragment extends Fragment {
         interactionListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String title, String subtitle);
+    private Bitmap getImage() {
+        String imagePath = order.getVehicle().getPhoto();
+        File cachedImage = new File(getActivity().getFilesDir(), imagePath);
+        Bitmap bmp;
+        long currentTime = System.currentTimeMillis();
+        if (cachedImage.exists() && (currentTime - cachedImage.lastModified() < 1 * 1000 * 60)) {
+            bmp = BitmapFactory.decodeFile(cachedImage.getAbsolutePath());
+        } else {
+            cachedImage.delete();
+            App.getApiService().getImage(order.getVehicle().getPhoto()).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+                            try {
+                                OutputStream os;
+                                os = new FileOutputStream(cachedImage);
+                                os.write(response.body().bytes());
+                                os.flush();
+                                os.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                }
+            });
+            bmp = BitmapFactory.decodeFile(cachedImage.getAbsolutePath());
+        }
+        return bmp;
     }
 }
