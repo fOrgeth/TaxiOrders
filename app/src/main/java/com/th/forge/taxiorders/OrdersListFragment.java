@@ -12,9 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.th.forge.taxiorders.entity.Order;
+import com.th.forge.taxiorders.utils.CurrencyParser;
 import com.th.forge.taxiorders.utils.DateTimeParser;
 
 import java.io.Serializable;
@@ -26,12 +26,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OrdersListFragment extends Fragment {
-    public static final String SAVE_LIST_STATE = "list_orders";
+    private static final String SAVE_LIST_STATE = "list_orders";
     private static final String LOG_TAG = "ORDERSLISTFRGMNT";
+    private static String symbol;
 
     private RecyclerView recyclerView;
     private List<Order> ordersList;
-    OrdersRVAdapter adapter;
 
     public static OrdersListFragment newInstance() {
         return new OrdersListFragment();
@@ -61,6 +61,7 @@ public class OrdersListFragment extends Fragment {
 
     private void init(View view) {
         ordersList = new ArrayList<>();
+        symbol = getResources().getString(R.string.rubleSymbol);
         recyclerView = view.findViewById(R.id.recycler_orders);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -76,26 +77,23 @@ public class OrdersListFragment extends Fragment {
                         if (ordersList != null) {
                             ordersList.addAll(response.body());
                             updateAdapter();
-//                        Toast.makeText(getActivity(), "WTF " + ordersList.get(1).getOrderTime(), Toast.LENGTH_LONG).show();
                         }
                     }
-                } else {
-                    Toast.makeText(getActivity(), "WAWEDAD", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<Order>> call, Throwable t) {
-                Toast.makeText(getActivity(), "SHIT" + " " + t.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void updateAdapter() {
-        adapter = new OrdersRVAdapter(getSortedOrders(ordersList));
+        OrdersRVAdapter adapter = new OrdersRVAdapter(getSortedOrders(ordersList));
         recyclerView.setAdapter(adapter);
     }
 
+    /*ToDO refactor*/
     private List<Order> getSortedOrders(@NonNull List<Order> orders) {
         List<Order> sortedOrders = new ArrayList<>(orders);
         boolean swapped;
@@ -156,8 +154,10 @@ public class OrdersListFragment extends Fragment {
                 this.order = order;
                 startAddress.setText(order.getStartAddress().getAddress());
                 endAddress.setText(order.getEndAddress().getAddress());
-                orderPrice.setText(String.valueOf(order.getPrice().getAmount()));
-                orderDate.setText(DateTimeParser.getReadableString("yyyy-MM-dd",
+                orderPrice.setText(CurrencyParser
+                        .getFormattedPrice(order.getPrice().getAmount(),
+                                order.getPrice().getCurrency(), symbol));
+                orderDate.setText(DateTimeParser.getReadableString("dd-MM-yyyy",
                         order.getOrderTime().getTime()));
             }
         }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,11 +16,10 @@ import android.widget.TextView;
 
 import com.th.forge.taxiorders.entity.Order;
 import com.th.forge.taxiorders.repo.ImageRepository;
+import com.th.forge.taxiorders.utils.CurrencyParser;
 import com.th.forge.taxiorders.utils.DateTimeParser;
 
 import java.io.Serializable;
-import java.text.NumberFormat;
-import java.util.Currency;
 
 
 public class OrderDetailFragment extends Fragment {
@@ -52,15 +50,6 @@ public class OrderDetailFragment extends Fragment {
         OrderDetailFragment fragment = new OrderDetailFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.d(LOG_TAG, "onSaveInstance");
-        if (image != null) {
-            outState.putParcelable(SAVE_IMAGE, image);
-        }
     }
 
     @Override
@@ -121,22 +110,21 @@ public class OrderDetailFragment extends Fragment {
         driverName.setText(order.getVehicle().getDriverName());
         vehicleModel.setText(order.getVehicle().getModelName());
         vehicleNumber.setText(order.getVehicle().getRegNumber());
-        Currency currency = Currency.getInstance(order.getPrice().getCurrency());
-        NumberFormat formatter = NumberFormat.getInstance();
-        formatter.setMinimumFractionDigits(2);
-        formatter.setCurrency(currency);
-        priceField.setText(String.format("%s %s", formatter.format(order.getPrice().getAmount()), getResources().getString(R.string.rubleSymbol)));
+        priceField.setText(CurrencyParser
+                .getFormattedPrice(order.getPrice().getAmount(),
+                order.getPrice().getCurrency(),getResources().getString(R.string.rubleSymbol)));
     }
 
     private class FetchImageTask extends AsyncTask<Void, Void, Bitmap> {
-        private String imagePath;
 
+        private String imagePath;
         FetchImageTask(String imagePath) {
             this.imagePath = imagePath;
         }
 
         @Override
         protected Bitmap doInBackground(Void... voids) {
+            Log.d(LOG_TAG, "I'm HERE!!!");
             image = ImageRepository.getImage(getActivity().getFilesDir(), imagePath);
             return image;
         }
@@ -144,6 +132,16 @@ public class OrderDetailFragment extends Fragment {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             imageView.setImageBitmap(bitmap);
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(LOG_TAG, "onSaveInstance");
+        if (image != null) {
+            outState.putParcelable(SAVE_IMAGE, image);
         }
     }
 
