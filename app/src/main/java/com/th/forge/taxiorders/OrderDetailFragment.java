@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,8 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.Currency;
 
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OrderDetailFragment extends Fragment {
@@ -75,13 +72,7 @@ public class OrderDetailFragment extends Fragment {
         TextView vehicleModel = view.findViewById(R.id.detail_vehicle_model);
         TextView vehicleNumber = view.findViewById(R.id.detail_vehicle_reg_number);
         TextView priceField = view.findViewById(R.id.detail_price);
-        if (interactionListener != null) {
-            String title = getString(R.string.detail_title_field)
-                    + new SimpleDateFormat("dd.MM.yyyy").format(order.getOrderTime().getTime());
-            String subtitle = getString(R.string.detail_subtitle_field)
-                    + new SimpleDateFormat("HH:mm").format(order.getOrderTime().getTime());
-            interactionListener.onFragmentInteraction(title, subtitle);
-        }
+        updateTitle();
         startStreet.setText(order.getStartAddress().getAddress());
         endStreet.setText(order.getEndAddress().getAddress());
         driverName.setText(order.getVehicle().getDriverName());
@@ -94,6 +85,16 @@ public class OrderDetailFragment extends Fragment {
         priceField.setText(String.format("%s %s", formatter.format(order.getPrice().getAmount()), getResources().getString(R.string.rubleSymbol)));
         new FetchImageTask().execute();
         return view;
+    }
+
+    private void updateTitle() {
+        if (interactionListener != null) {
+            String title = getString(R.string.detail_title_field)
+                    + new SimpleDateFormat("dd.MM.yyyy").format(order.getOrderTime().getTime());
+            String subtitle = getString(R.string.detail_subtitle_field)
+                    + new SimpleDateFormat("HH:mm").format(order.getOrderTime().getTime());
+            interactionListener.onFragmentInteraction(title, subtitle);
+        }
     }
 
     private class FetchImageTask extends AsyncTask<Void, Void, Bitmap>{
@@ -131,27 +132,6 @@ public class OrderDetailFragment extends Fragment {
                 e.printStackTrace();
             }
             bmp = BitmapFactory.decodeFile(cachedImage.getAbsolutePath());
-            /*App.getApiService().getImage(order.getVehicle().getPhoto()).enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        if (response.body() != null) {
-                            try {
-                                OutputStream os;
-                                os = new FileOutputStream(cachedImage);
-                                os.write(response.body().bytes());
-                                os.flush();
-                                os.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                }
-            });*/
         }
         return bmp;
     }
