@@ -7,16 +7,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.th.forge.taxiorders.entity.Order;
 import com.th.forge.taxiorders.utils.DateTimeParser;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,17 +26,22 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OrdersListFragment extends Fragment {
+    public static final String SAVE_LIST_STATE = "list_orders";
+    private static final String LOG_TAG = "ORDERSLISTFRGMNT";
 
     private RecyclerView recyclerView;
     private List<Order> ordersList;
+    OrdersRVAdapter adapter;
 
     public static OrdersListFragment newInstance() {
         return new OrdersListFragment();
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(SAVE_LIST_STATE, (Serializable) ordersList);
+        Log.d(LOG_TAG, "onSavedInstance");
     }
 
     @Nullable
@@ -43,7 +49,13 @@ public class OrdersListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_orders_list, container, false);
         init(view);
-        loadList();
+        if (savedInstanceState != null) {
+            ordersList = (List<Order>) savedInstanceState.getSerializable(SAVE_LIST_STATE);
+            updateAdapter();
+            Log.d(LOG_TAG, "onCreate, saved!=null");
+        } else {
+            loadList();
+        }
         return view;
     }
 
@@ -55,20 +67,23 @@ public class OrdersListFragment extends Fragment {
     }
 
     private void loadList() {
+        Log.d(LOG_TAG, "LOAD LIST EXECUTED");
         App.getApiService().getOrders().enqueue(new Callback<ArrayList<Order>>() {
             @Override
             public void onResponse(Call<ArrayList<Order>> call, Response<ArrayList<Order>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        ordersList.addAll(response.body());
-                        OrdersRVAdapter adapter = new OrdersRVAdapter(getSortedOrders(ordersList));
-                        recyclerView.setAdapter(adapter);
+                        if (ordersList != null) {
+                            ordersList.addAll(response.body());
+                            updateAdapter();
 //                        Toast.makeText(getActivity(), "WTF " + ordersList.get(1).getOrderTime(), Toast.LENGTH_LONG).show();
+                        }
                     }
                 } else {
                     Toast.makeText(getActivity(), "WAWEDAD", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<ArrayList<Order>> call, Throwable t) {
                 Toast.makeText(getActivity(), "SHIT" + " " + t.toString(), Toast.LENGTH_LONG).show();
@@ -76,7 +91,12 @@ public class OrdersListFragment extends Fragment {
         });
     }
 
-    private List<Order> getSortedOrders(List<Order> orders) {
+    private void updateAdapter() {
+        adapter = new OrdersRVAdapter(getSortedOrders(ordersList));
+        recyclerView.setAdapter(adapter);
+    }
+
+    private List<Order> getSortedOrders(@NonNull List<Order> orders) {
         List<Order> sortedOrders = new ArrayList<>(orders);
         boolean swapped;
         for (int i = 0; i < sortedOrders.size(); i++) {

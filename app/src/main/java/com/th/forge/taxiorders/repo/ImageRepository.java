@@ -18,15 +18,12 @@ public class ImageRepository {
 
     public static Bitmap getImage(File fileDir, String imagePath) {
         cachedImage = new File(fileDir, imagePath);
-        Bitmap bmp;
         if (isImageExistsAndNotExpired()) {
-            bmp = BitmapFactory.decodeFile(cachedImage.getAbsolutePath());
-        } else {
-            cachedImage.delete();
-            getResponseAndWriteImage(imagePath);
-            bmp = BitmapFactory.decodeFile(cachedImage.getAbsolutePath());
+            return BitmapFactory.decodeFile(cachedImage.getAbsolutePath());
         }
-        return bmp;
+        cachedImage.delete();
+        getResponseAndWriteImage(imagePath);
+        return BitmapFactory.decodeFile(cachedImage.getAbsolutePath());
     }
 
     private static void getResponseAndWriteImage(String imagePath) {

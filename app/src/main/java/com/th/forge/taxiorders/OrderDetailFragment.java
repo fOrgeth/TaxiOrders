@@ -50,6 +50,11 @@ public class OrderDetailFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         interactionListener = (OnFragmentInteractionListener) context;

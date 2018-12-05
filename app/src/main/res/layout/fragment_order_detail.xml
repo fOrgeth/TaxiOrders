@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/viewBackground">
@@ -78,8 +79,8 @@
                     android:layout_marginStart="@dimen/small_margin"
                     android:layout_marginTop="@dimen/medium_margin"
                     android:layout_marginBottom="@dimen/large_margin"
-                    android:textSize="@dimen/detail_small_text_size"
                     android:hint="@string/hint_end_address"
+                    android:textSize="@dimen/detail_small_text_size"
                     app:layout_constraintStart_toEndOf="@id/ic_detail_arrow"
                     app:layout_constraintTop_toBottomOf="@id/detail_start_address" />
 
@@ -108,21 +109,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/medium_margin"
-                    android:layout_marginTop="@dimen/medium_margin"
-                    android:textSize="@dimen/detail_small_text_size"
                     android:hint="@string/detail_driver_hint"
-                    app:layout_constraintStart_toEndOf="@id/ic_detail_car"
-                    app:layout_constraintTop_toBottomOf="@id/detail_sep1" />
+                    android:textSize="@dimen/detail_small_text_size"
+                    app:layout_constraintBottom_toBottomOf="@+id/ic_detail_driver"
+                    app:layout_constraintStart_toEndOf="@id/ic_detail_driver" />
 
                 <ImageView
                     android:id="@+id/ic_detail_car"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/medium_margin"
-                    android:layout_marginTop="@dimen/medium_margin"
                     android:src="@drawable/ic_directions_car_black_24dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/detail_vehicle_driver" />
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_vehicle_model"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/detail_vehicle_model"
@@ -130,8 +129,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/medium_margin"
                     android:layout_marginTop="@dimen/medium_margin"
-                    android:textSize="@dimen/detail_small_text_size"
                     android:hint="@string/detail_model_hint"
+                    android:textSize="@dimen/detail_small_text_size"
                     app:layout_constraintStart_toEndOf="@id/ic_detail_car"
                     app:layout_constraintTop_toBottomOf="@id/detail_vehicle_driver" />
 
@@ -140,10 +139,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/medium_margin"
-                    android:layout_marginTop="@dimen/medium_margin"
                     android:src="@drawable/ic_info_black_24dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/detail_vehicle_model" />
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_vehicle_reg_number"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/detail_vehicle_reg_number"
@@ -151,8 +149,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/medium_margin"
                     android:layout_marginTop="@dimen/medium_margin"
-                    android:textSize="@dimen/detail_small_text_size"
                     android:hint="@string/detail_reg_num_hint"
+                    android:textSize="@dimen/detail_small_text_size"
                     app:layout_constraintStart_toEndOf="@id/ic_detail_car_num"
                     app:layout_constraintTop_toBottomOf="@id/detail_vehicle_model" />
 
@@ -173,8 +171,8 @@
                     android:layout_marginTop="@dimen/large_margin"
                     android:layout_marginEnd="@dimen/extra_large_margin"
                     android:layout_marginBottom="@dimen/extra_large_margin"
-                    android:textColor="@color/colorAccent"
                     android:hint="@string/hint_price"
+                    android:textColor="@color/colorAccent"
                     android:textSize="@dimen/detail_large_text_size"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
