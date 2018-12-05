@@ -19,6 +19,7 @@ import com.th.forge.taxiorders.utils.DateTimeParser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -93,24 +94,9 @@ public class OrdersListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    /*ToDO refactor*/
     private List<Order> getSortedOrders(@NonNull List<Order> orders) {
         List<Order> sortedOrders = new ArrayList<>(orders);
-        boolean swapped;
-        for (int i = 0; i < sortedOrders.size(); i++) {
-            swapped = false;
-            for (int j = 0; j < sortedOrders.size() - i - 1; j++) {
-                if (sortedOrders.get(j).getOrderTime().getTime() < sortedOrders.get(j + 1).getOrderTime().getTime()) {
-                    Order tmp = sortedOrders.get(j);
-                    sortedOrders.set(j, sortedOrders.get(j + 1));
-                    sortedOrders.set(j + 1, tmp);
-                    swapped = true;
-                }
-            }
-            if (!swapped) {
-                break;
-            }
-        }
+        Collections.sort(sortedOrders, (o1, o2) -> o2.getOrderTime().compareTo(o1.getOrderTime()));
         return sortedOrders;
     }
 
@@ -120,11 +106,6 @@ public class OrdersListFragment extends Fragment {
 
         public OrdersRVAdapter(List<Order> orders) {
             this.orders = orders;
-        }
-
-        @Override
-        public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-            super.onAttachedToRecyclerView(recyclerView);
         }
 
         public static class OrdersViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -181,11 +162,6 @@ public class OrdersListFragment extends Fragment {
                 return 0;
             }
             return orders.size();
-        }
-
-        @Override
-        public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
-            super.onDetachedFromRecyclerView(recyclerView);
         }
     }
 }

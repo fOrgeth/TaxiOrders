@@ -14,11 +14,11 @@ public class Order implements Serializable {
 
     @SerializedName("startAddress")
     @Expose
-    private StartAddress startAddress;
+    private Address startAddress;
 
     @SerializedName("endAddress")
     @Expose
-    private EndAddress endAddress;
+    private Address endAddress;
 
     @SerializedName("price")
     @Expose
@@ -40,19 +40,19 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public StartAddress getStartAddress() {
+    public Address getStartAddress() {
         return startAddress;
     }
 
-    public void setStartAddress(StartAddress startAddress) {
+    public void setStartAddress(Address startAddress) {
         this.startAddress = startAddress;
     }
 
-    public EndAddress getEndAddress() {
+    public Address getEndAddress() {
         return endAddress;
     }
 
-    public void setEndAddress(EndAddress endAddress) {
+    public void setEndAddress(Address endAddress) {
         this.endAddress = endAddress;
     }
 

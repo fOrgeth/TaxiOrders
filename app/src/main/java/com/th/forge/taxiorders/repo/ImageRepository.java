@@ -15,6 +15,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Response;
 
 public class ImageRepository {
+    private static final long MINUTE = 1000 * 60;
     private static File cachedImage;
 
     public static Bitmap getImage(File fileDir, String imagePath) {
@@ -47,8 +48,9 @@ public class ImageRepository {
         os.close();
     }
 
+    /* ToDo need background service*/
     private static boolean isImageExistsAndNotExpired() {
         long currentTime = System.currentTimeMillis();
-        return cachedImage.exists() && (currentTime - cachedImage.lastModified() < 10 * 1000 * 60);
+        return cachedImage.exists() && (currentTime - cachedImage.lastModified() < 10 * MINUTE);
     }
 }

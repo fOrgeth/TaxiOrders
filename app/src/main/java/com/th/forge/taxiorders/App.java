@@ -26,7 +26,7 @@ public class App extends Application {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = getClient(interceptor);
         if (retrofit == null) {
-            getRetrofit(client);
+            initRetrofit(client);
         }
         api = retrofit.create(RoxieApiService.class);
     }
@@ -38,7 +38,7 @@ public class App extends Application {
                     .build();
     }
 
-    private void getRetrofit(OkHttpClient client) {
+    private void initRetrofit(OkHttpClient client) {
         retrofit = new Retrofit.Builder()
                 .baseUrl(ROOT_URL)
                 .addConverterFactory(GsonConverterFactory.create(getGson()))

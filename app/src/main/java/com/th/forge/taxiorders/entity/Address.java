@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class StartAddress implements Serializable {
+public class Address implements Serializable {
 
     @SerializedName("city")
     @Expose
