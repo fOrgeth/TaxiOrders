@@ -83,7 +83,7 @@ public class OrderDetailFragment extends Fragment {
         formatter.setMinimumFractionDigits(2);
         formatter.setCurrency(currency);
         priceField.setText(String.format("%s %s", formatter.format(order.getPrice().getAmount()), getResources().getString(R.string.rubleSymbol)));
-        new FetchImageTask().execute();
+        new FetchImageTask(order.getVehicle().getPhoto()).execute();
         return view;
     }
 
@@ -98,10 +98,15 @@ public class OrderDetailFragment extends Fragment {
     }
 
     private class FetchImageTask extends AsyncTask<Void, Void, Bitmap>{
+        private String imagePath;
+
+        FetchImageTask(String imagePath) {
+            this.imagePath = imagePath;
+        }
 
         @Override
         protected Bitmap doInBackground(Void... voids) {
-            return getImage();
+            return getImage(imagePath);
         }
 
         @Override
@@ -110,12 +115,11 @@ public class OrderDetailFragment extends Fragment {
         }
     }
 
-    private Bitmap getImage() {
-        String imagePath = order.getVehicle().getPhoto();
+    private Bitmap getImage(String imagePath) {
         File cachedImage = new File(getActivity().getFilesDir(), imagePath);
         Bitmap bmp;
         long currentTime = System.currentTimeMillis();
-        if (cachedImage.exists() && (currentTime - cachedImage.lastModified() < 1 * 1000 * 60)) {
+        if (cachedImage.exists() && (currentTime - cachedImage.lastModified() < 10 * 1000 * 60)) {
             bmp = BitmapFactory.decodeFile(cachedImage.getAbsolutePath());
         } else {
             cachedImage.delete();
