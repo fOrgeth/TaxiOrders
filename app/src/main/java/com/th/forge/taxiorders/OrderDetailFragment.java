@@ -4,9 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +26,12 @@ import java.util.Currency;
 
 public class OrderDetailFragment extends Fragment {
     private static final String ORDER_KEY = "order_key";
+    private static final String LOG_TAG = "DETAILFRGMNT";
+    private static final String SAVE_IMAGE = "SAVE_IMAGE";
 
     private OnFragmentInteractionListener interactionListener;
     private Order order;
+    private Bitmap image;
 
     /* ToDo ButterKnife */
     private ImageView imageView;
@@ -52,6 +57,10 @@ public class OrderDetailFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        Log.d(LOG_TAG, "onSaveInstance");
+        if (image != null) {
+            outState.putParcelable(SAVE_IMAGE, image);
+        }
     }
 
     @Override
@@ -66,6 +75,13 @@ public class OrderDetailFragment extends Fragment {
         if (getArguments() != null) {
             order = (Order) getArguments().getSerializable(ORDER_KEY);
         }
+        if (savedInstanceState != null) {
+            Log.d(LOG_TAG, "onCreateView, saved != null");
+            image = savedInstanceState.getParcelable(SAVE_IMAGE);
+        } else {
+            Log.d(LOG_TAG, "onCreateView, saved = null");
+            new FetchImageTask(order.getVehicle().getPhoto()).execute();
+        }
     }
 
     @Nullable
@@ -74,7 +90,6 @@ public class OrderDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_order_detail, container, false);
         initUi(view);
         setData();
-        new FetchImageTask(order.getVehicle().getPhoto()).execute();
         return view;
     }
 
@@ -100,6 +115,7 @@ public class OrderDetailFragment extends Fragment {
     }
 
     private void setData() {
+        imageView.setImageBitmap(image);
         startStreet.setText(order.getStartAddress().getAddress());
         endStreet.setText(order.getEndAddress().getAddress());
         driverName.setText(order.getVehicle().getDriverName());
@@ -121,7 +137,8 @@ public class OrderDetailFragment extends Fragment {
 
         @Override
         protected Bitmap doInBackground(Void... voids) {
-            return ImageRepository.getImage(getActivity().getFilesDir(), imagePath);
+            image = ImageRepository.getImage(getActivity().getFilesDir(), imagePath);
+            return image;
         }
 
         @Override

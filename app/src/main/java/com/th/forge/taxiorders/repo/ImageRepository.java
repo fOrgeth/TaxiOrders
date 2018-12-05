@@ -2,6 +2,7 @@ package com.th.forge.taxiorders.repo;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.th.forge.taxiorders.App;
 
@@ -17,6 +18,7 @@ public class ImageRepository {
     private static File cachedImage;
 
     public static Bitmap getImage(File fileDir, String imagePath) {
+        Log.d("ImageRepo","getImage");
         cachedImage = new File(fileDir, imagePath);
         if (isImageExistsAndNotExpired()) {
             return BitmapFactory.decodeFile(cachedImage.getAbsolutePath());
