@@ -10,12 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.th.forge.taxiorders.entity.Order;
+import com.th.forge.taxiorders.utils.DateTimeParser;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,10 +42,19 @@ public class OrdersListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_orders_list, container, false);
+        init(view);
+        loadList();
+        return view;
+    }
+
+    private void init(View view) {
+        ordersList = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recycler_orders);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        ordersList = new ArrayList<>();
+    }
+
+    private void loadList() {
         App.getApiService().getOrders().enqueue(new Callback<ArrayList<Order>>() {
             @Override
             public void onResponse(Call<ArrayList<Order>> call, Response<ArrayList<Order>> response) {
@@ -53,19 +63,17 @@ public class OrdersListFragment extends Fragment {
                         ordersList.addAll(response.body());
                         OrdersRVAdapter adapter = new OrdersRVAdapter(getSortedOrders(ordersList));
                         recyclerView.setAdapter(adapter);
-                        Toast.makeText(getActivity(), "WTF " + ordersList.get(1).getOrderTime(), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getActivity(), "WTF " + ordersList.get(1).getOrderTime(), Toast.LENGTH_LONG).show();
                     }
                 } else {
                     Toast.makeText(getActivity(), "WAWEDAD", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<ArrayList<Order>> call, Throwable t) {
-                Toast.makeText(getActivity(), "SHIT"+" "+t.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "SHIT" + " " + t.toString(), Toast.LENGTH_LONG).show();
             }
         });
-        return view;
     }
 
     private List<Order> getSortedOrders(List<Order> orders) {
@@ -91,7 +99,7 @@ public class OrdersListFragment extends Fragment {
     private static class OrdersRVAdapter extends RecyclerView.Adapter<OrdersRVAdapter.OrdersViewHolder> {
 
         private List<Order> orders;
-    
+
         public OrdersRVAdapter(List<Order> orders) {
             this.orders = orders;
         }
@@ -129,7 +137,8 @@ public class OrdersListFragment extends Fragment {
                 startAddress.setText(order.getStartAddress().getAddress());
                 endAddress.setText(order.getEndAddress().getAddress());
                 orderPrice.setText(String.valueOf(order.getPrice().getAmount()));
-                orderDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(order.getOrderTime().getTime()));
+                orderDate.setText(DateTimeParser.getReadableString("yyyy-MM-dd",
+                        order.getOrderTime().getTime()));
             }
         }
 
@@ -148,7 +157,7 @@ public class OrdersListFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            if(orders==null){
+            if (orders == null) {
                 return 0;
             }
             return orders.size();

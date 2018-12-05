@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TaxiOrders</string>
+    <string name="app_name">Taxi.Orders</string>
     <string name="hint_text_field">Test_Text</string>
     <string name="desc_car_image">Car Image</string>
     <string name="hint_date">20.10.2018, 17:50</string>

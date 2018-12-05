@@ -8,8 +8,6 @@ import java.util.Date;
 
 public class Order implements Serializable {
 
-    private final static String MASK = "yyyy-MM-dd'T'HH:mm:ssZ";
-
     @SerializedName("id")
     @Expose
     private Integer id;
