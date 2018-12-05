@@ -33,17 +33,14 @@ ext {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     implementation "com.android.support:appcompat-v7:$androidSupportVer"
     implementation "com.android.support.constraint:constraint-layout:$androidConstraintVer"
     implementation "com.android.support:recyclerview-v7:$androidSupportVer"
     implementation "com.android.support:cardview-v7:$androidSupportVer"
-
     implementation "com.google.code.gson:gson:$googleGsonVer"
-
     implementation "com.squareup.retrofit2:retrofit:$retrofit2Ver"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit2Ver"
-
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

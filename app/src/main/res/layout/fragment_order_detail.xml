@@ -1,80 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/medium_margin"
-    android:layout_marginTop="@dimen/medium_margin"
-    android:layout_marginEnd="@dimen/medium_margin"
-    android:layout_marginBottom="@dimen/medium_margin">
+    android:background="@color/viewBackground">
 
-    <android.support.v7.widget.CardView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:layout_marginEnd="@dimen/medium_margin"
+        android:layout_marginBottom="@dimen/medium_margin">
 
-        <android.support.constraint.ConstraintLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/large_margin"
+            card_view:cardCornerRadius="@dimen/card_corner_radius">
 
-            <ImageView
-                android:id="@+id/detail_image"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/small_margin"
-                android:layout_marginTop="@dimen/small_margin"
-                android:layout_marginEnd="@dimen/small_margin"
-                android:background="@color/viewBackground"
-                android:contentDescription="@string/desc_car_image"
-                android:scaleType="centerInside"
-                android:adjustViewBounds="true"
-                android:src="@drawable/car_tmp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/detail_date_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/medium_margin"
-                android:layout_marginTop="@dimen/medium_margin"
-                android:hint="@string/hint_date"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/detail_image" />
+                <ImageView
+                    android:id="@+id/detail_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    android:adjustViewBounds="true"
+                    android:background="@color/viewBackground"
+                    android:contentDescription="@string/desc_car_image"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/car_tmp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/detail_start_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/extra_large_margin"
-                android:layout_marginTop="@dimen/medium_margin"
-                android:hint="@string/hint_start_address"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/detail_date_time" />
+                <!--<TextView
+                    android:id="@+id/detail_date_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:hint="@string/hint_date"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/detail_image" />-->
 
-            <TextView
-                android:id="@+id/detail_end_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/extra_large_margin"
-                android:layout_marginTop="@dimen/medium_margin"
-                android:layout_marginBottom="@dimen/large_margin"
-                android:hint="@string/hint_end_address"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/detail_start_address" />
+                <TextView
+                    android:id="@+id/detail_start_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:layout_marginTop="@dimen/extra_large_margin"
+                    android:hint="@string/hint_start_address"
+                    android:textSize="@dimen/detail_medium_text_size"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/detail_image" />
 
-            <TextView
-                android:id="@+id/detail_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/large_margin"
-                android:layout_marginBottom="@dimen/large_margin"
-                android:hint="@string/hint_price"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                <ImageView
+                    android:id="@+id/ic_detail_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:src="@drawable/ic_subdirectory_arrow_right_black_24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/detail_start_address" />
 
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
-</FrameLayout>
+                <TextView
+                    android:id="@+id/detail_end_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:layout_marginBottom="@dimen/large_margin"
+                    android:hint="@string/hint_end_address"
+                    android:textSize="@dimen/detail_small_text_size"
+                    app:layout_constraintStart_toEndOf="@id/ic_detail_arrow"
+                    app:layout_constraintTop_toBottomOf="@id/detail_start_address" />
+
+                <View
+                    android:id="@+id/detail_sep1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/extra_large_margin"
+                    android:layout_marginTop="@dimen/large_margin"
+                    android:layout_marginEnd="@dimen/extra_large_margin"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintTop_toBottomOf="@id/detail_end_address" />
+
+                <ImageView
+                    android:id="@+id/ic_detail_driver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:src="@drawable/ic_person_black_24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/detail_sep1" />
+
+                <TextView
+                    android:id="@+id/detail_vehicle_driver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:hint="@string/detail_driver_hint"
+                    android:textSize="@dimen/detail_small_text_size"
+                    app:layout_constraintBottom_toBottomOf="@+id/ic_detail_driver"
+                    app:layout_constraintStart_toEndOf="@id/ic_detail_driver" />
+
+                <ImageView
+                    android:id="@+id/ic_detail_car"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:src="@drawable/ic_directions_car_black_24dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_vehicle_model"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/detail_vehicle_model"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:hint="@string/detail_model_hint"
+                    android:textSize="@dimen/detail_small_text_size"
+                    app:layout_constraintStart_toEndOf="@id/ic_detail_car"
+                    app:layout_constraintTop_toBottomOf="@id/detail_vehicle_driver" />
+
+                <ImageView
+                    android:id="@+id/ic_detail_car_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:src="@drawable/ic_info_black_24dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_vehicle_reg_number"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/detail_vehicle_reg_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:hint="@string/detail_reg_num_hint"
+                    android:textSize="@dimen/detail_small_text_size"
+                    app:layout_constraintStart_toEndOf="@id/ic_detail_car_num"
+                    app:layout_constraintTop_toBottomOf="@id/detail_vehicle_model" />
+
+                <View
+                    android:id="@+id/detail_sep2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/extra_large_margin"
+                    android:layout_marginTop="@dimen/large_margin"
+                    android:layout_marginEnd="@dimen/extra_large_margin"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintTop_toBottomOf="@id/detail_vehicle_reg_number" />
+
+                <TextView
+                    android:id="@+id/detail_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/large_margin"
+                    android:layout_marginEnd="@dimen/extra_large_margin"
+                    android:layout_marginBottom="@dimen/extra_large_margin"
+                    android:hint="@string/hint_price"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/detail_large_text_size"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/detail_sep2" />
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+    </FrameLayout>
+</ScrollView>
