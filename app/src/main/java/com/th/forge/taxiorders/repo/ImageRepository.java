@@ -19,7 +19,7 @@ public class ImageRepository {
     private static File cachedImage;
 
     public static Bitmap getImage(File fileDir, String imagePath) {
-        Log.d("ImageRepo","getImage");
+        Log.d("ImageRepo", "getImage");
         cachedImage = new File(fileDir, imagePath);
         if (isImageExistsAndNotExpired()) {
             return BitmapFactory.decodeFile(cachedImage.getAbsolutePath());
@@ -41,11 +41,11 @@ public class ImageRepository {
     }
 
     private static void writeImageToDisk(Response<ResponseBody> response) throws IOException {
-        OutputStream os;
-        os = new FileOutputStream(cachedImage);
-        os.write(response.body().bytes());
-        os.flush();
-        os.close();
+        /* ToDo .close()*/
+        try (OutputStream os = new FileOutputStream(cachedImage)) {
+            os.write(response.body().bytes());
+            os.flush();
+        }
     }
 
     /* ToDo need background service*/
