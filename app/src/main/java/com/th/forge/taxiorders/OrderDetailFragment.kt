@@ -54,7 +54,7 @@ class OrderDetailFragment : Fragment() {
             image = savedInstanceState.getParcelable(SAVE_IMAGE)
         } else {
             Log.d(LOG_TAG, "onCreateView, saved = null")
-            FetchImageTask(order!!.vehicle!!.photo).execute()
+            FetchImageTask(order!!.vehicle!!.photo!!).execute()
         }
     }
 
@@ -95,7 +95,7 @@ class OrderDetailFragment : Fragment() {
         vehicleNumber!!.text = order!!.vehicle!!.regNumber
         priceField!!.text = CurrencyParser
                 .getFormattedPrice(order!!.price!!.amount,
-                        order!!.price!!.currency, resources.getString(R.string.rubleSymbol))
+                        order!!.price!!.currency!!, resources.getString(R.string.rubleSymbol))
     }
 
     private inner class FetchImageTask internal constructor(private val imagePath: String) : AsyncTask<Void, Void, Bitmap>() {

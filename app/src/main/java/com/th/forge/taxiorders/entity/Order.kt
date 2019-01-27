@@ -10,7 +10,7 @@ class Order : Serializable {
 
     @SerializedName("id")
     @Expose
-    private var id: Int? = null
+    var id: Int? = null
 
     @SerializedName("startAddress")
     @Expose

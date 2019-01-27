@@ -27,7 +27,7 @@ class App : Application() {
         if (retrofit == null) {
             initRetrofit(client)
         }
-        apiService = retrofit!!.create<RoxieApiService>(RoxieApiService::class.java!!)
+        apiService = retrofit!!.create<RoxieApiService>(RoxieApiService::class.java)
     }
 
     private fun getClient(interceptor: HttpLoggingInterceptor): OkHttpClient {

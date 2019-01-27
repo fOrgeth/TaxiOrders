@@ -38,7 +38,7 @@ class OrdersListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_orders_list, container, false)
         init(view)
         if (savedInstanceState != null) {
-            ordersList = savedInstanceState.getSerializable(SAVE_LIST_STATE) as List<Order>
+            ordersList = savedInstanceState.getSerializable(SAVE_LIST_STATE) as MutableList<Order>
             updateAdapter()
             Log.d(LOG_TAG, "onCreate, saved!=null")
         } else {
@@ -103,7 +103,7 @@ class OrdersListFragment : Fragment() {
             }
 
             override fun onClick(view: View) {
-                val intent = OrderDetailActivity.newIntent(this.itemView.context, order)
+                val intent = OrderDetailActivity.newIntent(this.itemView.context, order!!)
                 this.itemView.context.startActivity(intent)
             }
 
@@ -113,7 +113,7 @@ class OrdersListFragment : Fragment() {
                 endAddress.text = order.endAddress!!.address
                 orderPrice.text = CurrencyParser
                         .getFormattedPrice(order.price!!.amount,
-                                order.price!!.currency, symbol)
+                                order.price!!.currency!!, symbol!!)
                 orderDate.text = DateTimeParser.getReadableString("dd-MM-yyyy",
                         order.orderTime!!.time)
             }
