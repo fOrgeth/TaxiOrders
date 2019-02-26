@@ -1,6 +1,5 @@
 package com.th.forge.taxiorders
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -34,7 +33,11 @@ class OrdersListFragment : Fragment() {
         Log.d(LOG_TAG, "onSavedInstance")
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_orders_list, container, false)
         init(view)
         if (savedInstanceState != null) {
@@ -58,7 +61,10 @@ class OrdersListFragment : Fragment() {
     private fun loadList() {
         Log.d(LOG_TAG, "LOAD LIST EXECUTED")
         App.apiService!!.orders.enqueue(object : Callback<ArrayList<Order>> {
-            override fun onResponse(call: Call<ArrayList<Order>>, response: Response<ArrayList<Order>>) {
+            override fun onResponse(
+                call: Call<ArrayList<Order>>,
+                response: Response<ArrayList<Order>>
+            ) {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         if (ordersList != null) {
@@ -84,21 +90,19 @@ class OrdersListFragment : Fragment() {
         return sortedOrders
     }
 
-    private class OrdersRVAdapter(private val orders: List<Order>?) : RecyclerView.Adapter<OrdersRVAdapter.OrdersViewHolder>() {
+    private class OrdersRVAdapter(private val orders: List<Order>?) :
+        RecyclerView.Adapter<OrdersRVAdapter.OrdersViewHolder>() {
 
-        class OrdersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        class OrdersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+            View.OnClickListener {
 
             private var order: Order? = null
-            private val startAddress: TextView
-            private val endAddress: TextView
-            private val orderDate: TextView
-            private val orderPrice: TextView
+            private val startAddress: TextView = itemView.findViewById(R.id.start_address)
+            private val endAddress: TextView = itemView.findViewById(R.id.end_address)
+            private val orderDate: TextView = itemView.findViewById(R.id.order_date)
+            private val orderPrice: TextView = itemView.findViewById(R.id.order_price)
 
             init {
-                startAddress = itemView.findViewById(R.id.start_address)
-                endAddress = itemView.findViewById(R.id.end_address)
-                orderPrice = itemView.findViewById(R.id.order_price)
-                orderDate = itemView.findViewById(R.id.order_date)
                 itemView.setOnClickListener(this)
             }
 
@@ -112,17 +116,21 @@ class OrdersListFragment : Fragment() {
                 startAddress.text = order.startAddress!!.address
                 endAddress.text = order.endAddress!!.address
                 orderPrice.text = CurrencyParser
-                        .getFormattedPrice(order.price!!.amount,
-                                order.price!!.currency!!, symbol!!)
-                orderDate.text = DateTimeParser.getReadableString("dd-MM-yyyy",
-                        order.orderTime!!.time)
+                    .getFormattedPrice(
+                        order.price!!.amount,
+                        order.price!!.currency!!, symbol!!
+                    )
+                orderDate.text = DateTimeParser.getReadableString(
+                    "dd-MM-yyyy",
+                    order.orderTime!!.time
+                )
             }
         }
 
-        override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): OrdersViewHolder {
-            val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.order_item, viewGroup, false)
-            val ovh = OrdersViewHolder(view)
-            return ovh
+        override fun onCreateViewHolder(parent: ViewGroup, i: Int): OrdersViewHolder {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.order_item, parent, false)
+            return OrdersViewHolder(view)
         }
 
         override fun onBindViewHolder(ordersViewHolder: OrdersViewHolder, i: Int) {
